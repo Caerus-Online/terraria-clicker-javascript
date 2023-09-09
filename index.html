@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Template</title>
+  <link href="./css/animations.css" rel="stylesheet" type="text/css" />
+  <link href="./css/index.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+
+  <div name="Main" class="default terraria-background">
+    <h1 name="Currency" class="header">
+      
+    </h1>
+
+    <nav>
+      <button data-nav="menu/Click">Click</button>
+      <button data-nav="menu/Tiers">Tiers</button>
+      <button data-nav="menu/Summons">Summons</button>
+      <button data-nav="menu/Swords">Swords</button>
+      <button data-nav="menu/Options">...</button>
+    </nav>
+
+    <div name="Click" class="menu">
+
+    </div>
+
+    <div name="Tiers" class="menu">
+
+    </div>
+
+    <div name="Summons" class="menu">
+
+    </div>
+
+    <div name="Swords" class="menu">
+
+    </div>
+
+    <div name="Prestige Shop" class="menu">
+
+    </div>
+    <div name="Achievements" class="menu">
+
+    </div>
+    <div name="Stats" class="menu">
+
+    </div>
+    <div name="Settings" class="menu">
+      Music:
+      <input class="slider" type="range" min="0" max="100" value="100" id="music-volume">
+      SFX:
+      <input type="range" min="0" max="100" value="100" id="sfx-volume">
+
+      <button>Changelog</button>
+      <button>Credits</button>
+    </div>
+
+    <div name="Options" class="menu">
+      <button data-nav="return">
+        <span class="material-symbols-outlined">arrow_back</span>
+      </button>
+      <button data-nav="menu/Stats">Stats</button>
+      <button data-nav="menu/Achievements">Achievements</button>
+      <button data-nav="menu/Prestige Shop">Prestige Shop</button>
+      <button data-nav="menu/Settings">Settings</button>
+    </div>
+  </div>
+
+  <div id="alert" class="default">
+    <div id="alert-content"></div>
+    <button id="verify-alert">
+      OK
+    </button>
+    <button id="close-alert"
+      style="position: absolute;width: 15%;margin:0;left: 82.5%;top: 0%;padding: none;border:none;background: none;">
+      <img src="./assets/misc/cross.png">
+    </button>
+  </div>
+
+  <div name="Start" class="default">
+    <img src="assets/misc/logo.png" style="width: 100%">
+    <button id="start-button" class="" data-nav="menu/Click">Start</button>
+  </div>
+
+  <div name="Load Screen" class="default">
+    <img class="slide-in-right" src="assets/misc/banner-dark.png" style="width: 100%">
+    <h1 class="fade-in">Terraria made by Re-logic</h1>
+  </div>
+
+
+  <script src="./js/index.js" type="module"></script>
+</body>
+
+</html>

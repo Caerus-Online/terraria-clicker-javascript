@@ -1,0 +1,491 @@
+/* ✨ MAIN STYLES */
+:root {
+  --primary-color: black;
+  --secondary-color: rgba(86, 86, 188, 0.7);
+  --tertiary-color: rgba(66, 66, 168);
+  --background-color: rgba(86, 86, 188, 9);
+  /*makes everything easier to edit :)*/
+}
+
+@font-face {
+  font-family: Andy Bold;
+  src: url("../assets/font/Andy-Bold.otf") format("opentype");
+}
+
+* {
+  color: var(--primary-color);
+  position: relative;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: Andy Bold;
+  overflow: hidden;
+  cursor: none;
+  user-select: none;
+  text-align: center;
+}
+
+html {
+  overflow: scroll;
+}
+
+body {
+  background: var(--background-color);
+  width: 100vw;
+  height: 100vh;
+}
+
+/* Generic Styles */
+.outlined-text {
+  text-shadow: -1px -1px 5px black, 1px 1px 5px black, -1px -1px 5px black, 1px 1px 5px black;
+}
+
+.small-media {
+  width: 0.7rem;
+}
+
+.h1-media {
+  width: 1rem;
+}
+
+.h1-text {
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.h2-media {
+  width: 0.8rem;
+}
+
+.h2-text {
+  font-size: 1.6rem;
+}
+
+.h3-text {
+  font-size: 1.2rem;
+}
+
+.h3-media {
+  width: 0.8rem
+}
+
+/* themes */
+
+/* Classes */
+.default {
+  background: none;
+  background-image: url("../assets/misc/terraria.png");
+  background-size: cover;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  overflow: scroll;
+  text-align: center;
+  animation: fade-in 250ms;
+}
+
+.default.closed {
+  display: none !important;
+}
+
+.menu {
+  display: block;
+  overflow: scroll;
+  padding: 5%;
+  text-align: center;
+  animation: fade-in 800ms;
+}
+
+.menu.closed {
+  display: none !important;
+}
+
+.header {
+  width: 100%;
+  text-align: center;
+  display: grid;
+  grid-auto-columns:min-content;
+  grid-auto-flow: column;
+  grid-template-rows: 100%;
+  justify-content: center;
+  overflow-x: scroll;
+  gap: 4%;
+}
+
+.default[name="Load Screen"] {
+  background: black;
+  animation: none;
+  display: grid;
+  grid-template-columns: 100%;
+  align-content: center;
+  justify-content: center;
+}
+
+.default[name="Load Screen"] * {
+  color: white;
+}
+
+.default[name="Start"] {
+  animation: none;
+  padding: 15%;
+}
+
+.default[name="Start"].closed {
+  display: block !important;
+  animation: start 1s forwards;
+}
+
+.menu[name="Options"] {
+  background: var(--secondary-color);
+  display: grid;
+  justify-content: center;
+  grid-auto-rows: 1fr;
+  grid-auto-flow: row;
+  margin: 3%;
+  border-radius: 20px;
+}
+
+.menu[name="Options"] button {
+  padding: 0%;
+  margin: none;
+  border: 0.2rem inset var(--tertiary-color) !important;
+}
+
+#alert.default {
+  background: var(--background-color);
+  border-radius: 10px;
+  padding: 2%;
+  display: grid;
+  font-size: 1.5rem;
+  justify-content: center;
+  border: 0.2rem inset var(--tertiary-color);
+  animation: open 600ms forwards;
+}
+
+#alert.default.closed {
+  display: grid !important;
+  animation: close 400ms forwards;
+}
+#alert-content {
+  overflow: scroll;
+}
+
+.default[name="Main"] {
+  display: grid;
+  grid-template-rows: max-content max-content 1fr;
+  justify-content: center;
+}
+
+.menu[name="Click"] {
+  background: var(--secondary-color);
+  margin: 3%;
+  border-radius: 20px;
+}
+
+.menu[name="Tiers"] {
+  display: grid;
+  grid-auto-rows: max-content;
+}
+
+.menu[name="Summons"] {
+  display: grid;
+  grid-auto-rows: max-content;
+}
+
+.menu[name="Swords"] {
+  display: grid;
+  grid-auto-rows: max-content;
+}
+
+/*
+.menu[name="Achievements"] {
+  
+}
+*/
+
+nav {
+  background: var(--background-color);
+  border-radius: 15px;
+  padding: 2.5%;
+  display: grid;
+  grid-auto-columns: 1fr;
+  grid-auto-flow: column;
+}
+
+/* Scrollbars (dunno where to put them, not generic) */
+
+.equipped-sword {
+  transform: rotate(-45deg);
+  margin: 10%;
+  transition: transform 100ms;
+}
+
+.equipped-sword:active {
+  transform: rotate(10deg);
+}
+
+.currency-card {
+  white-space: nowrap;
+  padding: 0%;
+}
+
+.achievement-card {
+  background: var(--background-color);
+  opacity: 0.6;
+  display: grid;
+  border-radius: 10px;
+  justify-content: center;
+  margin: 3%;
+  overflow-y: scroll;
+  border: inset 0.2rem var(--tertiary-color);
+}
+
+.achievement-card img {
+  width: 100%;
+  height: 100%;
+  max-width: 50px;
+  max-height: 50px;
+  object-fit: cover;
+}
+
+.tier-card {
+  background: var(--secondary-color);
+  border-radius: 10px;
+  padding: 3%;
+  display: grid;
+  grid-template-columns: 50% 50%;
+  margin: 3%;
+  border: 0.2rem inset var(--tertiary-color);
+}
+
+
+.summon-card {
+  background: var(--secondary-color);
+  padding: 3%;
+  display: grid;
+  grid-template-columns: 50% 50%;
+  border-radius: 10px;
+  margin: 3%;
+  border: 0.2rem inset var(--tertiary-color);
+}
+
+.sword-card {
+  background: var(--secondary-color);
+  padding: 3%;
+  display: grid;
+  grid-template-columns: 50% 50%;
+  border-radius: 10px;
+  margin: 3%;
+  border: 0.2rem inset var(--tertiary-color);
+}
+
+#pointer {
+  width: 2rem;
+  position: absolute;
+  left: -5rem;
+  top: -5rem;
+  z-index: 99999;
+}
+
+/* Content */
+img {
+  width: 100%;
+  image-rendering: pixelated;
+}
+
+input,
+select {
+  background: var(--background-color);
+  color: currentcolor;
+  width: 100%;
+  border: none;
+}
+
+input:focus,
+select:focus {
+  outline: none;
+}
+
+::placeholder {
+  /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: var(--primary-color);
+  font-weight: bold;
+  opacity: 1;
+  /* Firefox */
+}
+
+input[type=range] {
+  width: 100%;
+  appearance: none;
+  border: none;
+  border-radius: 15px;
+  margin: 0;
+}
+
+input[type=range]:hover {
+  outline: none;
+  animation: rainbow-background 1s infinite;
+}
+
+input[type=range]::-webkit-slider-runnable-track {
+  width: 100%;
+  background: var(--secondary-color);
+  padding: 2.5%;
+}
+
+input[type=range]::-webkit-slider-thumb {
+  width: 15%;
+  border: inset 0.2rem var(--tertiary-color);
+  border-radius: 10px;
+  appearance: none;
+  padding: 2.5%;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+button {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 15px;
+  padding: 5%;
+  margin: 2.5%;
+  border: 0.2rem inset var(--tertiary-color);
+  display: inline-block;
+  width: 95%;
+}
+
+button:active {
+  background: rgba(255, 255, 255, 0.2);
+  color: black;
+  transition: 250ms;
+}
+
+button:active * {
+  color: black;
+  transition: 250ms;
+}
+
+button.closed {
+  border: 0.2rem solid transparent;
+}
+
+button img {
+  width: 1.5rem;
+}
+
+.special-button {
+  border: none;
+  width: 50%;
+  animation: rainbow-background 3s infinite;
+}
+.special-button.closed {
+}
+
+
+/* Specific UIE Styles*/
+
+
+@media (orientation: portrait) {
+  .default[name="Main"] {
+    grid-template-columns: 95%;
+  }
+
+  .menu[name="Tiers"] {
+    grid-template-columns: 100%;
+  }
+
+  .menu[name="Summons"] {
+    grid-template-columns: 100%;
+  }
+
+  .menu[name="Swords"] {
+    grid-template-columns: 100%;
+  }
+
+  .menu[name="Achievements"] {
+    grid-template-columns: 100%;
+  }
+
+  .menu[name="Options"] {
+    grid-template-columns: 100%;
+  }
+
+  #alert.default {
+    width: 70%;
+    height: 70%;
+    left: 15%;
+    padding-top: 10%;
+    grid-template-columns: 100%;
+    grid-template-rows: 80% 20%;
+    margin-top: 20%;
+  }
+
+  .equipped-sword {
+    width: 50%;
+  }
+
+  .achievement-card {
+    width: 85%;
+    max-height: 20%;
+    left: 5%;
+    grid-template-columns: 20% 80%;
+    padding: 2%;
+  }
+
+  input[type=range] {
+    width: 90%;
+  }
+}
+
+@media (orientation: landscape) {
+  .default[name="Main"] {
+    grid-template-columns: 60%;
+  }
+
+  .menu[name="Tiers"] {
+
+    grid-template-columns: 50% 50%;
+  }
+
+  .menu[name="Summons"] {
+
+    grid-template-columns: 50% 50%;
+  }
+
+  .menu[name="Swords"] {
+
+    grid-template-columns: 50% 50%;
+  }
+
+  .menu[name="Options"] {
+    grid-template-columns: 50%;
+  }
+
+  #alert.default {
+    width: 35%;
+    height: 70%;
+    left: 32.5%;
+    padding-top: 3%;
+    grid-template-columns: 60%;
+    grid-template-rows: 85% 15%;
+    margin-top: 8%;
+  }
+
+  .equipped-sword {
+    width: 15%;
+  }
+
+  .achievement-card {
+    width: 60%;
+    max-height: 25%;
+    left: 17%;
+    padding: 1%;
+    grid-template-columns: 15% 85%;
+  }
+
+  input[type=range] {
+    width: 30%;
+  }
+}

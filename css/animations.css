@@ -1,0 +1,170 @@
+.slide-in-right {
+  animation: slide-in-right 500ms;
+}
+.fade-in {
+  animation: fade-in 1000ms;
+}
+
+@keyframes prestige {
+  from {
+    background: white;
+    opacity: 1;
+  }
+  30% {
+    opacity: 0;
+  }
+  60% {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+    background: white;
+  }
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(-45deg);
+  }
+
+  to {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes rotate-back {
+  to {
+    transform: rotate(-45deg);
+  }
+}
+
+@keyframes open {
+  from {
+    top: -100%;
+  }
+  to {
+    top: 0%;
+  }
+}
+@keyframes close {
+  from {
+    top: 0%;
+  }
+  to {
+    top: -100%;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slide-in-right {
+  from {
+    left: 100%;
+  }
+
+  to {
+    left: 0%;
+
+  }
+}
+
+
+@keyframes card {
+  from {
+    transform: translateY(-100%);
+  }
+
+  to {
+    transform: translateY(0%);
+  }
+}
+
+@keyframes start {
+  from {
+    width: 100%;
+    height: 100%;
+    top: 0%;
+    left: 0%;
+  }
+
+  70% {
+    width: 120%;
+    height: 120%;
+    left: -10%;
+    top: 0%;
+    opacity: 1;
+  }
+
+  99% {
+    transform: scaleX(1);
+  }
+
+  to {
+    opacity: 0;
+    width: 140%;
+    height: 140%;
+    left: -20%;
+    top: 0%;
+    transform: scaleX(0);
+  }
+}
+
+@keyframes rainbow-background {
+  from {
+    background: red;
+  }
+
+  20% {
+    background: orange;
+  }
+
+  40% {
+    background: lightgreen;
+  }
+
+  60% {
+    background: dodgerblue;
+  }
+
+  80% {
+    background: magenta;
+  }
+
+  to {
+    background: red;
+  }
+}
+
+@keyframes rainbow-border {
+  from {
+    border-color: red;
+  }
+
+  20% {
+    border-color: orange;
+  }
+
+  40% {
+    border-color: lightgreen;
+  }
+
+  60% {
+    border-color: dodgerblue;
+  }
+
+  80% {
+    border-color: magenta;
+  }
+
+  to {
+    border-color: red;
+  }
+}
