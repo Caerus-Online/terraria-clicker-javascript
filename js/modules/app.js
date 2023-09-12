@@ -247,10 +247,11 @@ export default class App {
         audio.play()
       },
       setCookie(obj) {
-        
+        document.cookie = "data="+JSON.stringify(obj)+"; expires=Thu, 18 Dec 2050 12:00:00 UTC; path=/";
       },
       getCookie() {
-        
+        let decodedCookie = decodeURIComponent(document.cookie);
+        return decodedCookie;
       }
     };
   }
