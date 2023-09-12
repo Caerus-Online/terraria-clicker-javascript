@@ -125,5 +125,8 @@ const app = await new App({
     })
     
     app.client.nav("default/Start");
+
+    app.setCookie({name: "default"})
+    console.log(app.getCookie()+" cookie")
   }
 }).launch();
