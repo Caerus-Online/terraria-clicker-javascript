@@ -9,6 +9,8 @@ export default class Player {
       achievements: 0,
     }
 
+    app.setCookie({name: "default"})
+    console.log(app.getCookie()+" cookie")
     
     this.reset()
 
