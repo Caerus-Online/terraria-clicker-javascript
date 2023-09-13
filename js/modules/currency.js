@@ -4,9 +4,10 @@ export default class Currency {
     this.achievements = achievements.currency;
     this.player = player;
     this.attr = config.attr;
+    
+    this.count = this.player.save.currency[this.attr.identifier]?this.player.save.currency[this.attr.identifier].count:0;
 
-    this.count = 0;
-
+    this.player.currency[this.attr.identifier] = this;
     this.nodes = this.createCard(this.count);
     this.app.client.getUIE("header/Currency").append(this.nodes.card)
   }
