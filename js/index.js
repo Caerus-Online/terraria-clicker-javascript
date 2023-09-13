@@ -125,5 +125,6 @@ const app = await new App({
     })
     
     app.client.nav("default/Start");
+    
   }
 }).launch();
