@@ -1,7 +1,6 @@
 export default class Sword {
   constructor(app, achievements, player, currency, config) {
     this.app = app;
-    this.achievements = achievements.sword;
     this.player = player;
     this.currency = currency;
     this.attr = config.attr;
@@ -12,12 +11,11 @@ export default class Sword {
     this.texturePath = `/assets/swords/${this.attr.texture}`;
 
     this.createCard()
+
+    if (this.player.save.swords[this.attr.identifier]) this.purchase()
+    if (this.attr.identifier == this.player.save.sword) this.player.equip(this)
   }
-  checkAchievements() {
-    for (var i in this.achievements) {
-      if (this.achievements[i].on(this)) this.achievements.splice(i, 1);
-    }
-  }
+  
   createCard() {
     const nodes = {
       card: this.app.client.create("div", { class: "sword-card" }),
@@ -26,7 +24,12 @@ export default class Sword {
 
       purchaseButton: this.app.client.create("button", {
         click: () => {
+          if (!this.cost_currency.change(-this.attr.cost)) {
+            this.app.alert("Insufficient " + this.cost_currency.attr.name)
+            return;
+          };
           this.purchase()
+          this.player.equip(this)
         }
       })
     };
@@ -34,7 +37,7 @@ export default class Sword {
     nodes.purchaseButton.append(this.currency[this.attr.cost_currency].createCard(this.attr.cost, "h2").card)
     nodes.card.append(nodes.texture, nodes.title, nodes.purchaseButton)
 
-    if(this.nodes) {
+    if (this.nodes) {
       $(this.nodes.card).replaceWith(nodes.card)
     }
     else this.app.client.getUIE("menu/Swords").append(nodes.card)
@@ -42,24 +45,16 @@ export default class Sword {
     this.nodes = nodes;
   }
   updateCard() {
-    
+
   }
   purchase() {
-    if (!this.cost_currency.change(-this.attr.cost)) {
-      this.app.alert("Insufficient " + this.cost_currency.attr.name)
-      return;
-    };
-    
+
     this.app.client.audio("purchase", "sfx")
 
     $(this.nodes.purchaseButton).html("Owned")
     $(this.nodes.purchaseButton).off("click");
 
     this.updateCard()
-    this.player.equip(this);
-    this.player.updateCard()
-    this.app.client.nav("menu/Click")
-    this.checkAchievements()
   }
   getCurrency() {
     return this.value_currency.count;
@@ -67,11 +62,5 @@ export default class Sword {
   reset() {
     this.createCard()
   }
-  prestige() {
-    var p = this.currency.platinum;
-    var c = this.currency.coin;
-    
-    p.change(c.count/10)
-    c.change(-c.count)
-  }
+  
 }
