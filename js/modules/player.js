@@ -2,35 +2,39 @@ export default class Player {
   constructor(app, config) {
     this.app = app;
     this.attr = config.attr;
-
-    this.stats = {
-      clicks: 0,
-      prestiges: 0,
-      achievements: 0,
+        this.currency = {};
+    this.save = {
+      stats: {
+        clicks: 0,
+        prestiges: 0,
+        achievements: 0,
+      },
+      currency: {},
+      tiers: {},
+      summons: {},
+      achievements: {},
+      swords: {},
+      sword: null
     }
-
-    app.setCookie({name: "default"})
-    console.log(app.getCookie()+" cookie")
-    
     this.reset()
 
     setInterval(() => {
       for (var i in this.summons) {
-        this.summons[i].activate(this.sword.value+(this.stats.prestiges/10))
+        this.summons[i].activate(this.sword.value + (this.stats.prestiges / 10))
       }
     }, 1000)
   }
   click() {
 
     for (var i in this.tiers) {
-      this.tiers[i].activate(this.sword.value+(this.stats.prestiges/10))
+      this.tiers[i].activate(this.sword.value + (this.stats.prestiges / 10))
     }
 
     this.stats.clicks++;
     this.updateCard()
   }
   createCard() {
-    if(this.nodes) this.nodes.card.remove();
+    if (this.nodes) this.nodes.card.remove();
     this.nodes = {
       card: this.app.client.create("div"),
 
@@ -40,7 +44,7 @@ export default class Player {
 
       prestigeButton: this.app.client.create("button", { class: "", html: "Prestige" })
     }
-    
+
     $(this.nodes.sword).attr("data-nav", "menu/Swords")
     $(this.nodes.prestigeButton).click(() => {
       this.prestige()
@@ -49,10 +53,10 @@ export default class Player {
     $(this.nodes.card).append(this.nodes.stats, this.nodes.sword, $("<br>"), this.nodes.prestigeButton)
 
     this.app.client.getUIE(this.attr.container).append(this.nodes.card)
-
-    this.updateCard()
   }
   updateCard() {
+    this.setSave()
+
     var values = {
       c: {},
       s: {}
@@ -86,17 +90,17 @@ export default class Player {
     $(this.nodes.stats).empty()
 
     for (var i in values.c) {
-      var nodes = values.c[i].currency.createCard(values.c[i].value*(this.sword.value+(this.stats.prestiges/10)));
+      var nodes = values.c[i].currency.createCard(values.c[i].value * (this.sword.value + (this.stats.prestiges / 10)));
       nodes.card.append("/c")
       $(this.nodes.stats).append(nodes.card, $("<br>"))
     }
     for (var i in values.s) {
-      var nodes = values.s[i].currency.createCard(values.s[i].value*(this.sword.value+(this.stats.prestiges/10)));
+      var nodes = values.s[i].currency.createCard(values.s[i].value * (this.sword.value + (this.stats.prestiges / 10)));
       nodes.card.append("/s")
       $(this.nodes.stats).append(nodes.card, $("<br>"))
     }
 
-    if (this.sword) this.nodes.stats.append(" x " + (this.sword.value+(this.stats.prestiges/10)))
+    if (this.sword) this.nodes.stats.append(" x " + (this.sword.value + (this.stats.prestiges / 10)))
 
     $(this.app.client.getUIE("menu/Stats")).html(`
     <h1>Stats</h1>
@@ -106,7 +110,7 @@ export default class Player {
     `)
   }
   equip(sword) {
-    this.swords.push(sword);
+    this.swords[sword.attr.identifier] = sword;
     this.sword = sword;
 
     const new_node = this.app.client.create("img", {
@@ -116,46 +120,102 @@ export default class Player {
     })
     $(this.nodes.sword).replaceWith(new_node)
     this.nodes.sword = new_node;
+
+    this.updateCard()
+        this.app.client.nav("menu/Click")
   }
   prestige() {
-    if(this.sword) {
-      if(this.sword.getCurrency()>this.attr.prestigeMin) {
+    if (this.sword) {
+      if (this.sword.getCurrency() > this.attr.prestigeMin) {
         this.app.alert("Are you sure you want to prestige? You will get 10% of your gold in platinum, and a x0.1 boost to everything.", () => {
-          $("body").css("animation", "prestige "+(6000)+"ms")
+          $("body").css("animation", "prestige " + (6000) + "ms")
 
           setTimeout(() => {
             $("body").css("animation", "none")
           }, 6000)
           setTimeout(() => {
-             for(var i in this.tiers) {
-            this.tiers[i].reset()
-          }
-          for(var i in this.summons) {
-            this.summons[i].reset()
-          }
-          for(var i in this.swords) {
-            this.swords[i].reset()
-          }
-          this.sword.prestige()
-          this.stats.prestiges++;
-          this.reset()
+            this.save.tiers={}
+            for (var i in this.tiers) {
+              this.tiers[i].reset()
+            }
+            this.save.summons={}
+            for (var i in this.summons) {
+              this.summons[i].reset()
+            }
+            this.save.swords={}
+            for (var i in this.swords) {
+              this.swords[i].reset()
+            }
+
+            this.stats.prestiges++;
+
+            var p = this.currency.platinum;
+    var c = this.currency.coin;
+
+    p.change(c.count / 10)
+    c.change(-c.count)
+            this.setSave()
+                        this.reset()
+            this.updateCard()
           }, 3000)
         })
       }
-      else this.app.alert("You must have at least 200 gold before prestiging")
+      else this.app.alert("You must have at least " + this.attr.prestigeMin + " gold before prestiging")
     }
     else {
       this.app.alert("You must buy a sword to prestige.")
     }
   }
+  setSave() {
+    this.save.stats = { ...this.stats };
+
+    this.save.currency = {};
+    for (var i in this.currency) {
+      this.save.currency[this.currency[i].attr.identifier] = { count: this.currency[i].count };
+    }
+
+    this.save.tiers = {}
+    for (var i in this.tiers) {
+      this.save.tiers[this.tiers[i].attr.identifier] = { level: this.tiers[i].level }
+    }
+
+    this.save.summons = {}
+    for (var i in this.summons) {
+      this.save.summons[this.summons[i].attr.identifier] = { level: this.summons[i].level }
+    }
+
+    this.save.swords = {}
+    for (var i in this.swords) {
+      this.save.swords[this.swords[i].attr.identifier] = true;
+    }
+
+    if(this.sword) this.save.sword = this.sword.attr.identifier;
+    else this.save.sword=false;
+
+    this.app.client.setCookie(this.save)
+  }
   getSave() {
-    
+    if (!this.app.client.getCookie()) this.app.client.setCookie(this.save)
+
+    var cookie = this.app.client.getCookie()
+    if (!cookie) {
+      document.body.innerHTML = "<h1>Your browser does not support cookies, switch to a better browser then come back.</h1>"
+      throw "Browser does not support cookies";
+    }
+
+    return cookie;
   }
   reset() {
-    this.tiers = []
-    this.summons = []
-    this.achievements = []
-    this.swords = [];
+    var save = this.getSave();
+    for (var i in save) {
+      this.save[i] = save[i]
+    }
+
+    this.stats = this.save.stats;
+    this.tiers = {};
+    this.summons = {};
+    this.achievements = {};
+    this.swords = {};
     this.sword = null;
 
     this.createCard()
