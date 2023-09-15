@@ -31,15 +31,7 @@ const app = await new App({
     },
   ],
   serverConfig: function() {
-    return {
-      apiKey: "AIzaSyCp0iJu-J5amajS09ohiyZQx1_zVf6s7WE",
-      authDomain: "i7-firebase.firebaseapp.com",
-      projectId: "i7-firebase",
-      storageBucket: "i7-firebase.appspot.com",
-      messagingSenderId: "512300723530",
-      appId: "1:512300723530:web:f960ec958569d54d58e5b3",
-      measurementId: "G-WB58RHP0K9"
-    };
+    
   },
   clientConfig: async function(app) {
     const config = await app.server.getModule("../config.js");
